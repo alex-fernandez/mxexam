@@ -10,7 +10,7 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "products", indexes = {
+@Table(name = "items", indexes = {
         @Index(name = "name", columnList = "name")
 },
         uniqueConstraints = @UniqueConstraint(name = "idx_product_entity_id",
@@ -18,7 +18,7 @@ import javax.persistence.UniqueConstraint;
 @lombok.Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProductEntity extends DomainObject {
+public class ItemEntity extends DomainObject {
 
     @Column(name = "name", nullable = false, length = 100)
     private String name;

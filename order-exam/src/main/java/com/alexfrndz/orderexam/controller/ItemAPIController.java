@@ -2,9 +2,9 @@ package com.alexfrndz.orderexam.controller;
 
 
 import com.alexfrndz.orderexam.pojo.PaginationSearchRequest;
-import com.alexfrndz.orderexam.pojo.Product;
+import com.alexfrndz.orderexam.pojo.Item;
 import com.alexfrndz.orderexam.pojo.SearchResponse;
-import com.alexfrndz.orderexam.service.ProductImpl;
+import com.alexfrndz.orderexam.service.ItemImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,14 +23,14 @@ import javax.validation.Valid;
 @RequestMapping("/")
 @RestController
 @Slf4j
-public class ProductAPIController extends BaseController {
+public class ItemAPIController extends BaseController {
 
 
-    private ProductImpl productService;
+    private ItemImpl itemService;
 
     @Autowired
-    public ProductAPIController(ProductImpl productService) {
-        this.productService = productService;
+    public ItemAPIController(ItemImpl itemService) {
+        this.itemService = itemService;
     }
 
     @RequestMapping(value = "products", method = RequestMethod.GET)
@@ -38,31 +38,31 @@ public class ProductAPIController extends BaseController {
     public ResponseEntity<SearchResponse> search(
             @RequestParam(value = "name", required = false, defaultValue = "") String name,
             @ModelAttribute @Valid PaginationSearchRequest searchRequest) {
-        return new ResponseEntity<SearchResponse>(productService.search(name, searchRequest), HttpStatus.OK);
+        return new ResponseEntity<SearchResponse>(itemService.search(name, searchRequest), HttpStatus.OK);
     }
 
     @RequestMapping(value = "products/{productId}", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<Product> get(@PathVariable Long productId) {
-        return new ResponseEntity<Product>(productService.get(productId), HttpStatus.OK);
+    public ResponseEntity<Item> get(@PathVariable Long productId) {
+        return new ResponseEntity<Item>(itemService.get(productId), HttpStatus.OK);
     }
 
     @RequestMapping(value = "products", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<Product> create(@RequestBody @Valid Product request) {
-        return new ResponseEntity<Product>(productService.create(request), HttpStatus.CREATED);
+    public ResponseEntity<Item> create(@RequestBody @Valid Item request) {
+        return new ResponseEntity<Item>(itemService.create(request), HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "products/{productId}", method = RequestMethod.PUT)
     @ResponseBody
-    public ResponseEntity<Product> update(@PathVariable Long productId, @RequestBody @Valid Product request) {
-        return new ResponseEntity<Product>(productService.update(productId, request), HttpStatus.OK);
+    public ResponseEntity<Item> update(@PathVariable Long productId, @RequestBody @Valid Item request) {
+        return new ResponseEntity<Item>(itemService.update(productId, request), HttpStatus.OK);
     }
 
     @RequestMapping(value = "products/{productId}", method = RequestMethod.DELETE)
     @ResponseBody
     public Object delete(@PathVariable Long productId) {
-        productService.delete(productId);
+        itemService.delete(productId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 

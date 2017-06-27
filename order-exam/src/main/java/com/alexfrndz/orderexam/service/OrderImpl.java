@@ -8,7 +8,6 @@ import com.alexfrndz.orderexam.pojo.OrderItem;
 import com.alexfrndz.orderexam.pojo.PaginationSearchRequest;
 import com.alexfrndz.orderexam.pojo.SearchResponse;
 import com.alexfrndz.orderexam.pojo.exception.ApiException;
-import com.alexfrndz.orderexam.pojo.exception.DuplicateEntryException;
 import com.alexfrndz.orderexam.pojo.exception.NotFoundException;
 import com.alexfrndz.orderexam.repository.OrderItemRepository;
 import com.alexfrndz.orderexam.repository.OrderRepository;
@@ -33,14 +32,14 @@ public class OrderImpl extends AbstractService implements IOrder {
     private ConverterBasedTransformer<OrderEntity, Order> entityPojoToEntityEntityConverterBasedTransformer;
     private OrderItemPojoToOrderItemEntityConverter orderItemPojoToOrderItemEntityConverter;
 
-    private static final String NOT_FOUND_ERROR_STATUS = "NOT_FOUND_VENUE";
-    private static final String NOT_FOUND_ERROR_MESSAGE = "No Entity Found";
+    private static final String NOT_FOUND_ERROR_STATUS = "Not Found";
+    private static final String NOT_FOUND_ERROR_MESSAGE = "No Order Found";
 
     @Autowired
     public OrderImpl(
             OrderRepository orderRepository,
             OrderItemRepository orderItemRepository,
-            @Qualifier("orderPojoToOrderEntityConverterBasedTransformer")
+            @Qualifier("orderEntityToOrderPojoConverterBasedTransformer")
                     ConverterBasedTransformer<OrderEntity, Order> CustomerPojoToCustomerEntityConverterBasedTransformer,
             OrderItemPojoToOrderItemEntityConverter orderItemPojoToOrderItemEntityConverter
     ) {
@@ -59,9 +58,9 @@ public class OrderImpl extends AbstractService implements IOrder {
 
 
     public Order get(Long entityId) {
-        OrderEntity entityDataEntity = orderRepository.findOne(entityId);
-        checkEntity(entityDataEntity);
-        return orderExamConversionService.convert(entityDataEntity, Order.class);
+        OrderEntity orderEntity = orderRepository.findOne(entityId);
+        checkEntity(orderEntity);
+        return orderExamConversionService.convert(orderEntity, Order.class);
     }
 
 
@@ -84,7 +83,7 @@ public class OrderImpl extends AbstractService implements IOrder {
 
         } catch (org.springframework.dao.DataIntegrityViolationException ex) {
             if (ex.getMostSpecificCause().toString().contains("ConstraintViolation")) {
-                throw new DuplicateEntryException("DUPLICATE", "Order already exists.");
+                throw new ApiException("Bad Request", ex.getMostSpecificCause().toString());
             } else {
                 throw new ApiException("UNKNOWN ERROR", "Invalid Data");
             }

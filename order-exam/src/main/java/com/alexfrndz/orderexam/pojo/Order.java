@@ -8,7 +8,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -25,7 +25,7 @@ public class Order {
     private String customerName;
 
     @Size(message = "'item' should be > 1")
-    private List<OrderItem> items;
+    private Set<OrderItem> items;
 
     private Date createdOn;
 

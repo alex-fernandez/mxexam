@@ -6,11 +6,12 @@ import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Product {
+public class Item {
 
     private Long id;
 
@@ -22,5 +23,8 @@ public class Product {
     @NotEmpty(message = "'cost' is required.")
     private Double cost;
 
+    private Date createdOn;
+
+    private Date updatedOn;
 
 }

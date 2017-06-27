@@ -25,12 +25,22 @@ import javax.persistence.UniqueConstraint;
 public class OrderItemEntity extends DomainObject {
 
 
-    @Column(name = "item_id", nullable = false, length = 100)
+    @Column(name = "item_id", nullable = false)
     private Long itemId;
 
+    @Column(name = "count", nullable = false, length = 100)
+    private int count;
 
-    @Column(name = "item_cost", nullable = false, length = 100)
-    private Double itemCost;
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
+
+    @Column(name = "cost", nullable = false)
+    private Double cost;
 
 
     @JoinColumn(name = "order_id",
@@ -48,12 +58,12 @@ public class OrderItemEntity extends DomainObject {
         this.itemId = itemId;
     }
 
-    public Double getItemCost() {
-        return itemCost;
+    public Double getCost() {
+        return cost;
     }
 
-    public void setItemCost(Double itemCost) {
-        this.itemCost = itemCost;
+    public void setCost(Double cost) {
+        this.cost = cost;
     }
 
     public OrderEntity getOrder() {

@@ -1,6 +1,8 @@
 package com.alexfrndz.orderexam.config;
 
+import com.alexfrndz.orderexam.entity.ItemEntity;
 import com.alexfrndz.orderexam.entity.OrderEntity;
+import com.alexfrndz.orderexam.pojo.Item;
 import com.alexfrndz.orderexam.pojo.Order;
 import com.alexfrndz.orderexam.utils.ConverterBasedTransformer;
 import com.google.common.collect.Sets;
@@ -29,6 +31,13 @@ public class ConversionConfig {
     @Autowired
     private OrderItemPojoToOrderItemEntityConverter orderItemPojoToOrderItemEntityConverter;
 
+    @Autowired
+    private ItemEntityToItemPojoConverter itemEntityToItemPojoConverter;
+
+    @Autowired
+    private ItemPojoToItemEntityConverter itemPojoToItemEntityConverter;
+
+
     @Bean
     @Qualifier("orderExamConversionService")
     public ConversionService mondelasportsConversionService() {
@@ -37,14 +46,23 @@ public class ConversionConfig {
         converters.add(orderPojoToOrderEntityConverter);
         converters.add(orderEntityToOrderPojoConverter);
         converters.add(orderItemPojoToOrderItemEntityConverter);
+        converters.add(itemEntityToItemPojoConverter);
+        converters.add(itemPojoToItemEntityConverter);
         factory.setConverters(converters);
         factory.afterPropertiesSet();
         return factory.getObject();
     }
 
-    @Bean(name = "orderPojoToOrderEntityConverterBasedTransformer")
-    public ConverterBasedTransformer<OrderEntity, Order> orderPojoToOrderEntityConverterBasedTransformer() {
+    @Bean(name = "orderEntityToOrderPojoConverterBasedTransformer")
+    public ConverterBasedTransformer<OrderEntity, Order> orderEntityToOrderPojoConverterBasedTransformer() {
         return new ConverterBasedTransformer<>(Order.class);
+
+    }
+
+
+    @Bean(name = "itemEntityItemConverterBasedTransformer")
+    public ConverterBasedTransformer<ItemEntity, Item> itemEntityItemConverterBasedTransformer() {
+        return new ConverterBasedTransformer<>(Item.class);
 
     }
 
