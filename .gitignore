@@ -1,0 +1,26 @@
+order-exam/target/
+!.mvn/wrapper/maven-wrapper.jar
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+
+### IntelliJ IDEA ###
+order-exam/.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+nbproject/private/
+/order-exam/build/
+/order-exam/nbbuild//
+/order-exam/dist/
+nbdist/
+.nb-gradle/
+/order-exam/order-exam.iml
+/order-exam/logs/
