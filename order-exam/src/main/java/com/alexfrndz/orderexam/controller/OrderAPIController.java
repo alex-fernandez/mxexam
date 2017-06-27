@@ -1,10 +1,9 @@
 package com.alexfrndz.orderexam.controller;
 
 
-import com.alexfrndz.orderexam.pojo.OrderRequest;
+import com.alexfrndz.orderexam.pojo.Order;
 import com.alexfrndz.orderexam.pojo.PaginationSearchRequest;
 import com.alexfrndz.orderexam.pojo.SearchResponse;
-import com.alexfrndz.orderexam.pojo.exception.OrderResponse;
 import com.alexfrndz.orderexam.service.OrderImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,20 +43,20 @@ public class OrderAPIController extends BaseController {
 
     @RequestMapping(value = "orders/{orderId}", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<OrderResponse> get(@PathVariable Long orderId) {
-        return new ResponseEntity<OrderResponse>(orderService.get(orderId), HttpStatus.OK);
+    public ResponseEntity<Order> get(@PathVariable Long orderId) {
+        return new ResponseEntity<Order>(orderService.get(orderId), HttpStatus.OK);
     }
 
     @RequestMapping(value = "orders", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<OrderResponse> create(@RequestBody @Valid OrderRequest request) {
-        return new ResponseEntity<OrderResponse>(orderService.create(request), HttpStatus.CREATED);
+    public ResponseEntity<Order> create(@RequestBody @Valid Order request) {
+        return new ResponseEntity<Order>(orderService.create(request), HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "orders/{orderId}", method = RequestMethod.PUT)
     @ResponseBody
-    public ResponseEntity<OrderResponse> update(@PathVariable Long orderId, @RequestBody @Valid OrderRequest request) {
-        return new ResponseEntity<OrderResponse>(orderService.update(orderId, request), HttpStatus.OK);
+    public ResponseEntity<Order> update(@PathVariable Long orderId, @RequestBody @Valid Order request) {
+        return new ResponseEntity<Order>(orderService.update(orderId, request), HttpStatus.OK);
     }
 
     @RequestMapping(value = "orders/{orderId}", method = RequestMethod.DELETE)

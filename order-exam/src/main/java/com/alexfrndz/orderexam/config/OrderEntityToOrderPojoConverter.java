@@ -3,7 +3,7 @@ package com.alexfrndz.orderexam.config;
 
 import com.alexfrndz.orderexam.entity.OrderEntity;
 import com.alexfrndz.orderexam.entity.OrderItemEntity;
-import com.alexfrndz.orderexam.pojo.OrderRequest;
+import com.alexfrndz.orderexam.pojo.Order;
 import com.alexfrndz.orderexam.pojo.OrderItem;
 import com.google.common.collect.Sets;
 import org.springframework.core.convert.converter.Converter;
@@ -12,11 +12,11 @@ import org.springframework.stereotype.Component;
 import java.util.Set;
 
 @Component
-public class OrderEntityToOrderPojoConverter implements Converter<OrderEntity, OrderRequest> {
+public class OrderEntityToOrderPojoConverter implements Converter<OrderEntity, Order> {
 
     @Override
-    public OrderRequest convert(OrderEntity source) {
-        OrderRequest target = new OrderRequest();
+    public Order convert(OrderEntity source) {
+        Order target = new Order();
         target.setId(source.getId());
         target.setCustomerName(source.getCustomerName());
         target.setPlacementDate(source.getPlacementDate());

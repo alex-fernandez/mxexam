@@ -4,89 +4,46 @@ version: v1.0
 baseUri: http://alexfernandezorder/api
 mediaType: application/json
 documentation:
-  - title: Introduction
+  - title: Welcome to the order process management api
     content: |
-      API to manage the sales and replenishments of stock items and floats in our vending machines.
+      API to create and retrieve Orders
 /orders:
-  post:
-    body:
-      example: |
-         {
-           "customerName":"Alex",
-           "placementDate":"2017-04-12",
-           "items":[
-              {
-                 "id":1,
-                 "name":"chipy",
-                 "cost":20
-              }
-           ]
-           }
   get:
     responses:
       200:
-        body:  
-          example: |
-             {
-                  "start": 1,
-                  "total": 20,
-                  "count": 3,
-                  "results": [
-                      {
-                          "id": 1,
-                          "placementDate": 1491955200000,
-                          "customerName": "Alex",
-                          "items": [],
-                          "createdOn": 1498569763000,
-                          "updatedOn": 1498569763000
-                      },
-                      {
-                          "id": 2,
-                          "placementDate": 1491955200000,
-                          "customerName": "Alex",
-                          "items": [],
-                          "createdOn": 1498569813000,
-                          "updatedOn": 1498569813000
-                      },
-                      {
-                          "id": 3,
-                          "placementDate": 1491955200000,
-                          "customerName": "Alex",
-                          "items": [
-                              {
-                                  "id": 1,
-                                  "count": 0,
-                                  "itemCost": 0
-                              }
-                          ],
-                          "createdOn": 1498570381000,
-                          "updatedOn": 1498570382000
-                      }
-                  ]
-              }
+         description: |
+            Retrieves all the orders
+            body:
+              application/json:
+                example: !include examples/v1/GetOrderResponseSuccess.json
+      400:
+            description: |
+              Bad Request.
+            body:
+              application/json:
+                example: !include examples/v1/GetOrderResponseBadRequest.json
+      500:
+            description: |
+              Server error.
+            body:
+              application/json:
+                example: !include examples/v1/GetOrderResponseBadRequest.json
   /{orderId}:
     get:
       responses:
         200:
           body:
-            example: |
-              {
-                "id" : "ZX4102",
-                "location" : "Starbuck's, 442 Geary Street, San Francisco, CA 94102",
-                "sales" : [
-                  {
-                    "dateAndTime" : "2013-10-22 16:17:00",
-                    "value" : 450,
-                    "machineId" : "ZX4102",
-                      "productId" : "Cad-CB1012"
-                  },
-                  {
-                    "dateAndTime" : "2013-10-22 16:17:00",
-                    "value" : 150,
-                    "machineId" : "ZX5322",
-                    "productId" : "CC-LB1"
-                    }
-                  ],
-                "floatsToBeReplenished" : [20, 40, 20, 80, 20, 40, 40],
-                "stockToBeReplenished" : 54
-              }
+            application/json:
+             example: !include examples/v1/GetOrderResponseSuccess.json
+        400:
+            description: |
+              Bad Request.
+            body:
+              application/json:
+                example: !include examples/v1/GetOrderResponseBadRequest.json
+        500:
+            description: |
+              Server error.
+            body:
+              application/json:
+                example: !include examples/v1/GetOrderResponseBadRequest.json

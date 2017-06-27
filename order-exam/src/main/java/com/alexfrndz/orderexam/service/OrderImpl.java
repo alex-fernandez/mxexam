@@ -5,7 +5,7 @@ import com.alexfrndz.orderexam.entity.ItemEntity;
 import com.alexfrndz.orderexam.entity.OrderEntity;
 import com.alexfrndz.orderexam.entity.OrderItemEntity;
 import com.alexfrndz.orderexam.pojo.OrderItem;
-import com.alexfrndz.orderexam.pojo.OrderRequest;
+import com.alexfrndz.orderexam.pojo.Order;
 import com.alexfrndz.orderexam.pojo.PaginationSearchRequest;
 import com.alexfrndz.orderexam.pojo.SearchResponse;
 import com.alexfrndz.orderexam.pojo.exception.ApiException;
@@ -15,7 +15,6 @@ import com.alexfrndz.orderexam.repository.OrderRepository;
 import com.alexfrndz.orderexam.utils.ConverterBasedTransformer;
 import com.google.common.collect.Sets;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -31,7 +30,7 @@ public class OrderImpl extends AbstractService implements IOrder {
 
     private OrderRepository orderRepository;
     private OrderItemRepository orderItemRepository;
-    private ConverterBasedTransformer<OrderEntity, OrderRequest> entityPojoToEntityEntityConverterBasedTransformer;
+    private ConverterBasedTransformer<OrderEntity, Order> entityPojoToEntityEntityConverterBasedTransformer;
     private OrderItemPojoToOrderItemEntityConverter orderItemPojoToOrderItemEntityConverter;
     private ItemImpl itemService;
 
@@ -43,7 +42,7 @@ public class OrderImpl extends AbstractService implements IOrder {
             OrderRepository orderRepository,
             OrderItemRepository orderItemRepository,
             @Qualifier("orderEntityToOrderPojoConverterBasedTransformer")
-                    ConverterBasedTransformer<OrderEntity, OrderRequest> CustomerPojoToCustomerEntityConverterBasedTransformer,
+                    ConverterBasedTransformer<OrderEntity, Order> CustomerPojoToCustomerEntityConverterBasedTransformer,
             OrderItemPojoToOrderItemEntityConverter orderItemPojoToOrderItemEntityConverter,
             ItemImpl itemService
     ) {
@@ -69,7 +68,7 @@ public class OrderImpl extends AbstractService implements IOrder {
     }
 
 
-    public Order create(OrderRequest request) {
+    public Order create(Order request) {
         validate(request);
         OrderEntity orderEntity = orderExamConversionService.convert(request, OrderEntity.class);
         try {
@@ -102,7 +101,7 @@ public class OrderImpl extends AbstractService implements IOrder {
     }
 
     @Transactional
-    public Order update(Long entityId, OrderRequest request) {
+    public Order update(Long entityId, Order request) {
         OrderEntity entityDataEntity = orderRepository.findOne(entityId);
         checkEntity(entityDataEntity);
         Set<OrderItemEntity> alternativeNameEntities = Sets.newHashSet();
@@ -121,7 +120,7 @@ public class OrderImpl extends AbstractService implements IOrder {
     }
 
 
-    private void validate(OrderRequest request) {
+    private void validate(Order request) {
 
     }
 

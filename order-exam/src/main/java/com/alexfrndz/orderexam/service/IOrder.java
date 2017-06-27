@@ -1,9 +1,8 @@
 package com.alexfrndz.orderexam.service;
 
-import com.alexfrndz.orderexam.pojo.OrderRequest;
+import com.alexfrndz.orderexam.pojo.Order;
 import com.alexfrndz.orderexam.pojo.PaginationSearchRequest;
 import com.alexfrndz.orderexam.pojo.SearchResponse;
-import org.hibernate.criterion.Order;
 
 public interface IOrder {
 
@@ -11,9 +10,9 @@ public interface IOrder {
 
     Order get(Long entityId);
 
-    Order create(OrderRequest request);
+    Order create(Order request);
 
-    Order update(Long entityId, OrderRequest request);
+    Order update(Long entityId, Order request);
 
     void delete(Long entityId);
 }
