@@ -95,7 +95,6 @@ public class OrderImpl extends AbstractService implements IOrder {
     public Order update(Long entityId, Order request) {
         OrderEntity entityDataEntity = orderRepository.findOne(entityId);
         checkEntity(entityDataEntity);
-        validate(request);
         Set<OrderItemEntity> alternativeNameEntities = Sets.newHashSet();
         Iterable<OrderItemEntity> mergedAlternativeNames = Stream.concat(Sets.newHashSet(alternativeNameEntities).stream(), entityDataEntity.getOrderItems().stream())
                 .collect(Collectors.toSet());

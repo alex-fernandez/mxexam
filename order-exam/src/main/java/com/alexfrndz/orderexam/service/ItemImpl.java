@@ -46,17 +46,26 @@ public class ItemImpl extends AbstractService implements IProduct {
 
     @Override
     public Item create(Item request) {
-        return null;
+        ItemEntity itemEntity = orderExamConversionService.convert(request, ItemEntity.class);
+        itemEntity = itemRepository.save(itemEntity);
+        return orderExamConversionService.convert(itemEntity, Item.class);
     }
 
     @Override
     public Item update(Long itemId, Item request) {
-        return null;
+        ItemEntity itemEntity = itemRepository.findOne(itemId);
+        checkEntity(itemEntity);
+        itemEntity.setName(request.getName());
+        itemEntity.setCost(request.getCost());
+        itemEntity = itemRepository.save(itemEntity);
+        return orderExamConversionService.convert(itemEntity, Item.class);
     }
 
     @Override
     public void delete(Long itemId) {
-
+        ItemEntity itemEntity = itemRepository.findOne(itemId);
+        checkEntity(itemEntity);
+        itemRepository.delete(itemId);
     }
 
 
