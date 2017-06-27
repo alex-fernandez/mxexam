@@ -1,0 +1,14 @@
+{
+  "meta":
+  {
+    "status": "Not Implemented",
+    "messages":
+    [
+      {
+        "code": "ERR028",
+        "level": "1",
+        "message": "The server either does not recognize the request method, or it lacks the ability to fulfill the request."
+      }
+    ]
+  }            
+}

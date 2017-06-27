@@ -3,7 +3,7 @@ package com.alexfrndz.orderexam.config;
 
 import com.alexfrndz.orderexam.entity.OrderEntity;
 import com.alexfrndz.orderexam.entity.OrderItemEntity;
-import com.alexfrndz.orderexam.pojo.Order;
+import com.alexfrndz.orderexam.pojo.OrderRequest;
 import com.alexfrndz.orderexam.pojo.OrderItem;
 import com.google.common.collect.Sets;
 import org.springframework.core.convert.converter.Converter;
@@ -12,11 +12,11 @@ import org.springframework.stereotype.Component;
 import java.util.Set;
 
 @Component
-public class OrderEntityToOrderPojoConverter implements Converter<OrderEntity, Order> {
+public class OrderEntityToOrderPojoConverter implements Converter<OrderEntity, OrderRequest> {
 
     @Override
-    public Order convert(OrderEntity source) {
-        Order target = new Order();
+    public OrderRequest convert(OrderEntity source) {
+        OrderRequest target = new OrderRequest();
         target.setId(source.getId());
         target.setCustomerName(source.getCustomerName());
         target.setPlacementDate(source.getPlacementDate());
@@ -28,7 +28,8 @@ public class OrderEntityToOrderPojoConverter implements Converter<OrderEntity, O
         for (OrderItemEntity itemEntity : source.getOrderItems()) {
             OrderItem orderItem = new OrderItem();
             orderItem.setId(itemEntity.getId());
-            orderItem.setCost(itemEntity.getCost());
+            orderItem.setCount(itemEntity.getCount());
+            orderItem.setItemCost(itemEntity.getCost());
             orderItemSet.add(orderItem);
         }
 

@@ -12,7 +12,6 @@ public class OrderItemPojoToOrderItemEntityConverter implements Converter<OrderI
     public OrderItemEntity convert(OrderItem source) {
         OrderItemEntity target = new OrderItemEntity();
         target.setItemId(source.getId());
-        target.setCost(source.getCost());
         target.setCount(source.getCount());
         return target;
     }

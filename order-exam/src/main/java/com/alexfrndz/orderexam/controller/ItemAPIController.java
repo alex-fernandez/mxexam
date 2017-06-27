@@ -33,7 +33,7 @@ public class ItemAPIController extends BaseController {
         this.itemService = itemService;
     }
 
-    @RequestMapping(value = "products", method = RequestMethod.GET)
+    @RequestMapping(value = "items", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<SearchResponse> search(
             @RequestParam(value = "name", required = false, defaultValue = "") String name,
@@ -41,28 +41,28 @@ public class ItemAPIController extends BaseController {
         return new ResponseEntity<SearchResponse>(itemService.search(name, searchRequest), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "products/{productId}", method = RequestMethod.GET)
+    @RequestMapping(value = "items/{itemId}", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<Item> get(@PathVariable Long productId) {
-        return new ResponseEntity<Item>(itemService.get(productId), HttpStatus.OK);
+    public ResponseEntity<Item> get(@PathVariable Long itemId) {
+        return new ResponseEntity<Item>(itemService.get(itemId), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "products", method = RequestMethod.POST)
+    @RequestMapping(value = "items", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<Item> create(@RequestBody @Valid Item request) {
         return new ResponseEntity<Item>(itemService.create(request), HttpStatus.CREATED);
     }
 
-    @RequestMapping(value = "products/{productId}", method = RequestMethod.PUT)
+    @RequestMapping(value = "items/{itemId}", method = RequestMethod.PUT)
     @ResponseBody
-    public ResponseEntity<Item> update(@PathVariable Long productId, @RequestBody @Valid Item request) {
-        return new ResponseEntity<Item>(itemService.update(productId, request), HttpStatus.OK);
+    public ResponseEntity<Item> update(@PathVariable Long itemId, @RequestBody @Valid Item request) {
+        return new ResponseEntity<Item>(itemService.update(itemId, request), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "products/{productId}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "items/{itemId}", method = RequestMethod.DELETE)
     @ResponseBody
-    public Object delete(@PathVariable Long productId) {
-        itemService.delete(productId);
+    public Object delete(@PathVariable Long itemId) {
+        itemService.delete(itemId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 

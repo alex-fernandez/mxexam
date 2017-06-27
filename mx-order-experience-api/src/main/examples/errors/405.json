@@ -1,0 +1,14 @@
+{
+  "meta":
+  {
+    "status": "METHOD_NOT_ALLOWED",
+    "messages":
+    [
+      {
+        "code": "ERR024",
+        "level": "1",
+        "message": "A request was made of a resource using a request method not supported by that resource; for example, using GET on a form which requires data to be presented via POST, or using PUT on a read-only resource."
+      }
+    ]
+  }            
+}

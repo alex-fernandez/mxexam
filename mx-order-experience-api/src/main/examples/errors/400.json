@@ -1,0 +1,14 @@
+{
+  "meta":
+  {
+    "status": "BAD_REQUEST",
+    "messages":
+    [
+      {
+        "code": "ERR022",
+        "level": "1",
+        "message": "Unable to process your request, please check its validity."
+      }
+    ]
+  }           
+}

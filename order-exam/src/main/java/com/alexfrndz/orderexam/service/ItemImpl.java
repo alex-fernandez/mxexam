@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
-public class ItemImpl extends AbstractService implements IProduct {
+public class ItemImpl extends AbstractService implements IItem {
 
     private ItemRepository itemRepository;
     private ConverterBasedTransformer<ItemEntity, Item> itemEntityItemConverterBasedTransformer;
@@ -39,7 +39,7 @@ public class ItemImpl extends AbstractService implements IProduct {
 
     @Override
     public Item get(Long itemId) {
-        ItemEntity itemEntity = itemRepository.findOne(itemId);
+        ItemEntity itemEntity = getEntity(itemId);
         checkEntity(itemEntity);
         return orderExamConversionService.convert(itemEntity, Item.class);
     }
@@ -68,6 +68,9 @@ public class ItemImpl extends AbstractService implements IProduct {
         itemRepository.delete(itemId);
     }
 
+    public ItemEntity getEntity(Long itemId) {
+        return itemRepository.findOne(itemId);
+    }
 
     private void checkEntity(ItemEntity entityDataEntity) {
         if (entityDataEntity == null) {

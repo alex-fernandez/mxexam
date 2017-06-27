@@ -1,0 +1,14 @@
+{
+  "meta":
+  {
+    "status": "NOT_FOUND",
+    "messages":
+    [
+      {
+        "code": "ERR023",
+        "level": "1",
+        "message": "The requested resource is not found."
+      }
+    ]
+  }            
+}

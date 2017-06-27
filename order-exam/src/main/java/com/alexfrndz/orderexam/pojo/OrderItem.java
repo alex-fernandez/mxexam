@@ -16,12 +16,9 @@ public class OrderItem {
     @NotEmpty(message = "'id' is required.")
     private Long id;
 
-    @NotNull(message = "'count' is required.")
-    @NotEmpty(message = "'count' is required.")
+    @NotNull(message = "'name' is required.")
+    @NotEmpty(message = "'name' is required.")
     private int count;
 
-    @NotNull(message = "'cost' is required.")
-    @NotEmpty(message = "'cost' is required.")
-    private Double cost;
-
+    private double itemCost;
 }

@@ -4,7 +4,7 @@ import com.alexfrndz.orderexam.pojo.PaginationSearchRequest;
 import com.alexfrndz.orderexam.pojo.Item;
 import com.alexfrndz.orderexam.pojo.SearchResponse;
 
-public interface IProduct {
+public interface IItem {
 
     SearchResponse search(String name, PaginationSearchRequest searchRequest);
 

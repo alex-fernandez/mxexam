@@ -1,0 +1,14 @@
+{
+  "meta":
+  {
+    "status": "FORBIDDEN",
+    "messages":
+    [
+      {
+        "code": "BUS0011",
+        "level": "3",
+        "message": "Bad OAuth request (wrong consumer key, bad nonce, expired timestamp...)"
+      }
+    ]
+  }            
+}

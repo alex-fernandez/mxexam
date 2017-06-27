@@ -1,0 +1,14 @@
+{
+  "meta":
+  {
+    "status": "Bad Gateway ou Proxy Error",
+    "messages":
+    [
+      {
+        "code": "ERR029",
+        "level": "1",
+        "message": "Oups... Something wrong on one of the underlying servers! Please contact the administrator to report the issue."
+      }
+    ]
+  }            
+}

@@ -20,7 +20,6 @@ public class Item {
     private String name;
 
     @NotNull(message = "'cost' is required.")
-    @NotEmpty(message = "'cost' is required.")
     private Double cost;
 
     private Date createdOn;

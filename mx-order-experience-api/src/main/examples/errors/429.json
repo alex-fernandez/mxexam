@@ -1,0 +1,14 @@
+{
+  "meta":
+  {
+    "status": "TOO_MANY_REQUEST",
+    "messages":
+    [
+      {
+        "code": "ERR026",
+        "level": "1",
+        "message": "Your request has been rejected due to rate limitation. Please check your subscribed service level agreement."
+      }
+    ]
+  }            
+}

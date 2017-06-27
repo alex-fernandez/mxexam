@@ -28,19 +28,12 @@ public class OrderItemEntity extends DomainObject {
     @Column(name = "item_id", nullable = false)
     private Long itemId;
 
-    @Column(name = "count", nullable = false, length = 100)
+    @Column(name = "count", nullable = false)
     private int count;
-
-    public int getCount() {
-        return count;
-    }
-
-    public void setCount(int count) {
-        this.count = count;
-    }
 
     @Column(name = "cost", nullable = false)
     private Double cost;
+
 
 
     @JoinColumn(name = "order_id",
@@ -58,6 +51,14 @@ public class OrderItemEntity extends DomainObject {
         this.itemId = itemId;
     }
 
+    public OrderEntity getOrder() {
+        return order;
+    }
+
+    public void setOrder(OrderEntity order) {
+        this.order = order;
+    }
+
     public Double getCost() {
         return cost;
     }
@@ -66,13 +67,14 @@ public class OrderItemEntity extends DomainObject {
         this.cost = cost;
     }
 
-    public OrderEntity getOrder() {
-        return order;
+    public int getCount() {
+        return count;
     }
 
-    public void setOrder(OrderEntity order) {
-        this.order = order;
+    public void setCount(int count) {
+        this.count = count;
     }
+
 
     public enum Paths {
         nam, id

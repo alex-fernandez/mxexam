@@ -1,0 +1,14 @@
+{
+  "meta":
+  {
+    "status": "INTERNAL_ERROR",
+    "messages":
+    [
+      {
+        "code": "ERR027",
+        "level": "1",
+        "message": "Oups... Something wrong on the server! Please contact the administrator to report the issue."
+      }
+    ]
+  }            
+}

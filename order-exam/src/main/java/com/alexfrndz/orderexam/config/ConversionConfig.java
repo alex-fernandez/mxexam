@@ -3,7 +3,7 @@ package com.alexfrndz.orderexam.config;
 import com.alexfrndz.orderexam.entity.ItemEntity;
 import com.alexfrndz.orderexam.entity.OrderEntity;
 import com.alexfrndz.orderexam.pojo.Item;
-import com.alexfrndz.orderexam.pojo.Order;
+import com.alexfrndz.orderexam.pojo.OrderRequest;
 import com.alexfrndz.orderexam.utils.ConverterBasedTransformer;
 import com.google.common.collect.Sets;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,8 +54,8 @@ public class ConversionConfig {
     }
 
     @Bean(name = "orderEntityToOrderPojoConverterBasedTransformer")
-    public ConverterBasedTransformer<OrderEntity, Order> orderEntityToOrderPojoConverterBasedTransformer() {
-        return new ConverterBasedTransformer<>(Order.class);
+    public ConverterBasedTransformer<OrderEntity, OrderRequest> orderEntityToOrderPojoConverterBasedTransformer() {
+        return new ConverterBasedTransformer<>(OrderRequest.class);
 
     }
 
