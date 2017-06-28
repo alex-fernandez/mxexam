@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns:dw="http://www.mulesoft.org/schema/mule/ee/dw" xmlns:metadata="http://www.mulesoft.org/schema/mule/metadata" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee/dw/current/dw.xsd
+http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd">
+
+ <sub-flow name="get-orders-by-id-compute-total">
+        <http:request config-ref="HTTP_Request_Configuration" path="v1/orders/#[flowVars['orderId']]" method="GET" doc:name="Get Order by id Compute total">
+           <http:success-status-code-validator values="200..599"/>
+        </http:request>
+        <choice doc:name="Choice">
+            <when expression="#[message.inboundProperties['http.status'] == 200]">
+                <dw:transform-message metadata:id="2b506542-b98b-4361-95fd-99e532fd4c29" doc:name="Get Total Cost of Order">
+                    <dw:input-payload doc:sample="examples/Order.json" mimeType="application/json"/>
+                    <dw:set-payload><![CDATA[%dw 1.0
+%input payload application/json
+%output application/json
+%var subTotalItems = payload.items map ((item) -> {
+		subTotal: item.count * item.itemCost 
+	})
+%function sumTotals(type) ((sum subTotalItems.subTotal) default 0)
+
+---
+{
+	id: payload.id,
+	orderDate: (payload.placementDate as :datetime) as :string {format:"yyyy-MM-dd"},
+	customerName: payload.customerName,
+	items: payload.items,
+	totalCost:sumTotals(payload.items)   when (sizeOf payload.items) > 0  otherwise 0
+}]]></dw:set-payload>
+                </dw:transform-message>
+            </when>
+            <otherwise>
+                <set-payload value="#[payload]" doc:name="This is redundant but default should have a message processor"/>
+            </otherwise>
+        </choice>
+       <copy-properties propertyName="http.*" doc:name="Copy All HTTP Headers"/>
+       <copy-properties propertyName="content-type" doc:name="Content-Type"/>
+    </sub-flow>
+</mule>

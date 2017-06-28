@@ -1,0 +1,14 @@
+{
+    "id": 3,
+    "placementDate": 1491955200000,
+    "customerName": "Alex",
+    "items": [
+        {
+            "id": 1,
+            "count": 0,
+            "itemCost": 0
+        }
+    ],
+    "createdOn": 1498570381000,
+    "updatedOn": 1498570382000
+}

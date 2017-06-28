@@ -11,39 +11,54 @@ documentation:
   get:
     responses:
       200:
-         description: |
-            Retrieves all the orders
+            description: |
+              Retrieves all the orders
             body:
-              application/json:
-                example: !include examples/v1/GetOrderResponseSuccess.json
+             application/json:
+                example: !include examples/v1/GetOrdersResponseSuccess.json
       400:
             description: |
               Bad Request.
             body:
               application/json:
-                example: !include examples/v1/GetOrderResponseBadRequest.json
+                example: !include examples/v1/GetOrdersResponseBadRequest.json
+      404:
+            description: |
+              Bad Request.
+            body:
+              application/json:
+                example: !include examples/v1/GetOrdersResponseNotFound.json
       500:
             description: |
               Server error.
             body:
               application/json:
-                example: !include examples/v1/GetOrderResponseBadRequest.json
-  /{orderId}:
+                example: !include examples/v1/GetOrdersResponseServerError.json
+  /{orderId}:    
     get:
       responses:
         200:
-          body:
-            application/json:
-             example: !include examples/v1/GetOrderResponseSuccess.json
+            description: |
+              Retrieves order by id with computation of itemcost and count
+            body:
+              application/json:
+               example: !include examples/v1/GetOrderByIdResponseSuccess.json
         400:
             description: |
               Bad Request.
             body:
               application/json:
-                example: !include examples/v1/GetOrderResponseBadRequest.json
+                example: !include examples/v1/GetOrderByIdResponseBadRequest.json
+        404:
+            description: |
+             Order not found.
+            body:
+              application/json:
+                example: !include examples/v1/GetOrderByIdResponseNotFound.json
         500:
             description: |
               Server error.
             body:
               application/json:
-                example: !include examples/v1/GetOrderResponseBadRequest.json
+                example: !include examples/v1/GetOrderByIdResponseServerError.json
+  

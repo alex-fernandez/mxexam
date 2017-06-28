@@ -7,6 +7,10 @@
 http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
     <sub-flow name="get-orders-sub-flow">
-        <http:request config-ref="HTTP_Request_Configuration" path="" method="" doc:name="HTTP"/>
+        <http:request config-ref="HTTP_Request_Configuration" path="v1/orders" method="GET" doc:name="Get Orders">
+           <http:success-status-code-validator values="200..599"/>
+        </http:request>
+       <copy-properties propertyName="http.*" doc:name="Copy All HTTP Headers"/>
+       <copy-properties propertyName="content-type" doc:name="Content-Type"/>
     </sub-flow>
 </mule>

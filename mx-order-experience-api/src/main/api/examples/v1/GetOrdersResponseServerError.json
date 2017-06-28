@@ -1,7 +1,7 @@
 {
     "timestamp": "2017-06-28T02:37:39.127+0000",
-    "status": 400,
-    "error": "Bad Request",
+    "status": 500,
+    "error": "Server Error",
     "message": "No message available",
     "path": "/v1/orders"
 }

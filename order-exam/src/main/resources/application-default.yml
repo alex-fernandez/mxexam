@@ -1,6 +1,8 @@
 server:
-  port: 9000
+  port: 8085
 spring:
+  jackson:
+    serialization.WRITE_DATES_AS_TIMESTAMPS: false
   datasource:
     driverClassName: com.mysql.jdbc.Driver
     url: jdbc:mysql://localhost:3306/modusbox?useSSL=false
