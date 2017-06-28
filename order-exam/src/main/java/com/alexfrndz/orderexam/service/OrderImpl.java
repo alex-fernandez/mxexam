@@ -72,8 +72,6 @@ public class OrderImpl extends AbstractService implements IOrder {
         validate(request);
         OrderEntity orderEntity = orderExamConversionService.convert(request, OrderEntity.class);
         try {
-            orderEntity = orderRepository.save(orderEntity);
-            orderEntity.setOrderItems(Sets.newHashSet());
             Set<OrderItemEntity> orderItemEntitySet = Sets.newHashSet();
 
             for (OrderItem orderItem : request.getItems()) {
@@ -86,6 +84,10 @@ public class OrderImpl extends AbstractService implements IOrder {
                 orderItemEntity.setCost(itemEntity.getCost());
                 orderItemEntitySet.add(orderItemEntity);
             }
+
+            orderEntity = orderRepository.save(orderEntity);
+            orderEntity.setOrderItems(Sets.newHashSet());
+
             Iterable<OrderItemEntity> orderItemEntityIterable = orderItemRepository.save(orderItemEntitySet);
             orderEntity.setOrderItems(Sets.newHashSet(orderItemEntityIterable));
             orderEntity = orderRepository.save(orderEntity);
@@ -104,10 +106,12 @@ public class OrderImpl extends AbstractService implements IOrder {
     public Order update(Long entityId, Order request) {
         OrderEntity entityDataEntity = orderRepository.findOne(entityId);
         checkEntity(entityDataEntity);
-        Set<OrderItemEntity> alternativeNameEntities = Sets.newHashSet();
-        Iterable<OrderItemEntity> mergedAlternativeNames = Stream.concat(Sets.newHashSet(alternativeNameEntities).stream(), entityDataEntity.getOrderItems().stream())
+        Set<OrderItemEntity> orderItemEntityHashSet = Sets.newHashSet();
+        Iterable<OrderItemEntity> mergedAlternativeNames = Stream.concat(Sets.newHashSet(orderItemEntityHashSet).stream(), entityDataEntity.getOrderItems().stream())
                 .collect(Collectors.toSet());
         entityDataEntity.setOrderItems(Sets.newHashSet(mergedAlternativeNames));
+        entityDataEntity.setPlacementDate(request.getPlacementDate());
+        entityDataEntity.setCustomerName(request.getCustomerName());
         entityDataEntity = orderRepository.save(entityDataEntity);
 
         return orderExamConversionService.convert(entityDataEntity, Order.class);

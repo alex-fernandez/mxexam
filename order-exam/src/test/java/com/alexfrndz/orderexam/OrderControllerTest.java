@@ -40,7 +40,7 @@ public class OrderControllerTest {
     @Test
     public void testSearch() throws Exception {
 
-        SearchResponse searchResponse = objectMapper.readValue(TestUtils.getJsonPayloadFromFile("OrderSearchResponse.json"), SearchResponse.class);
+        SearchResponse searchResponse = objectMapper.readValue(TestUtils.getJsonPayloadFromFile("controller/OrderSearchResponse.json"), SearchResponse.class);
 
         given(this.orderService.search(any(), any(PaginationSearchRequest.class)))
                 .willReturn(searchResponse);
@@ -49,55 +49,53 @@ public class OrderControllerTest {
                 .andExpect(status().isOk()).andReturn();
 
         String apiResponse = mvcResult.getResponse().getContentAsString();
-        JSONAssert.assertEquals(TestUtils.getJsonPayloadFromFile("OrderSearchResponse.json"), apiResponse, false);
+        JSONAssert.assertEquals(TestUtils.getJsonPayloadFromFile("controller/OrderSearchResponse.json"), apiResponse, false);
 
     }
 
     @Test
     public void testGetOrder() throws Exception {
-        Order order = objectMapper.readValue(TestUtils.getJsonPayloadFromFile("OrderGetResponse.json"), Order.class);
+        Order order = objectMapper.readValue(TestUtils.getJsonPayloadFromFile("controller/OrderGetResponse.json"), Order.class);
         given(this.orderService.get(any())).willReturn(order);
         MvcResult mvcResult = this.mvc.perform(get("/v1/orders/" + 1).accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk()).andReturn();
         String apiResponse = mvcResult.getResponse().getContentAsString();
-        JSONAssert.assertEquals(TestUtils.getJsonPayloadFromFile("OrderGetResponse.json"), apiResponse, false);
+        JSONAssert.assertEquals(TestUtils.getJsonPayloadFromFile("controller/OrderGetResponse.json"), apiResponse, false);
 
     }
 
     @Test
     public void testCreateOrder() throws Exception {
-        Order orderResponse = objectMapper.readValue(TestUtils.getJsonPayloadFromFile("OrderGetResponse.json"), Order.class);
+        Order orderResponse = objectMapper.readValue(TestUtils.getJsonPayloadFromFile("controller/OrderGetResponse.json"), Order.class);
         given(this.orderService.create(any())).willReturn(orderResponse);
 
         MvcResult mvcResult = this.mvc.perform(post("/v1/orders", orderResponse)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(TestUtils.getJsonPayloadFromFile("OrderCreateRequest.json"))
+                .content(TestUtils.getJsonPayloadFromFile("controller/OrderCreateRequest.json"))
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated()).andReturn();
 
         String apiResponse = mvcResult.getResponse().getContentAsString();
-        JSONAssert.assertEquals(TestUtils.getJsonPayloadFromFile("OrderGetResponse.json"), apiResponse, false);
+        JSONAssert.assertEquals(TestUtils.getJsonPayloadFromFile("controller/OrderGetResponse.json"), apiResponse, false);
     }
 
 
     @Test
     public void tesUpdateOrder() throws Exception {
-        Order orderResponse = objectMapper.readValue(TestUtils.getJsonPayloadFromFile("OrderGetResponse.json"), Order.class);
+        Order orderResponse = objectMapper.readValue(TestUtils.getJsonPayloadFromFile("controller/OrderGetResponse.json"), Order.class);
 
-        System.out.println("OrderGetResponse " + TestUtils.getJsonPayloadFromFile("OrderGetResponse.json"));
 
         given(this.orderService.update(any(), any())).willReturn(orderResponse);
 
         MvcResult mvcResult = this.mvc.perform(put("/v1/orders/" + 1, orderResponse)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(TestUtils.getJsonPayloadFromFile("OrderUpdateRequest.json"))
+                .content(TestUtils.getJsonPayloadFromFile("controller/OrderUpdateRequest.json"))
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk()).andReturn();
 
         String apiResponse = mvcResult.getResponse().getContentAsString();
 
-        System.out.println("apiResponse " + apiResponse);
-        JSONAssert.assertEquals(TestUtils.getJsonPayloadFromFile("OrderGetResponse.json"), apiResponse, false);
+        JSONAssert.assertEquals(TestUtils.getJsonPayloadFromFile("controller/OrderGetResponse.json"), apiResponse, false);
 
     }
 

@@ -40,7 +40,7 @@ public class ItemControllerTest {
     @Test
     public void testSearch() throws Exception {
 
-        SearchResponse searchResponse = objectMapper.readValue(TestUtils.getJsonPayloadFromFile("ItemSearchResponse.json"), SearchResponse.class);
+        SearchResponse searchResponse = objectMapper.readValue(TestUtils.getJsonPayloadFromFile("controller/ItemSearchResponse.json"), SearchResponse.class);
 
         given(this.itemService.search(any(), any(PaginationSearchRequest.class)))
                 .willReturn(searchResponse);
@@ -50,49 +50,49 @@ public class ItemControllerTest {
 
         String apiResponse = mvcResult.getResponse().getContentAsString();
 
-        JSONAssert.assertEquals(TestUtils.getJsonPayloadFromFile("ItemSearchResponse.json"), apiResponse, false);
+        JSONAssert.assertEquals(TestUtils.getJsonPayloadFromFile("controller/ItemSearchResponse.json"), apiResponse, false);
 
     }
 
     @Test
     public void testGetItem() throws Exception {
-        Item item = objectMapper.readValue(TestUtils.getJsonPayloadFromFile("ItemGetResponse.json"), Item.class);
+        Item item = objectMapper.readValue(TestUtils.getJsonPayloadFromFile("controller/ItemGetResponse.json"), Item.class);
         given(this.itemService.get(any())).willReturn(item);
         this.mvc.perform(get("/v1/items/" + 1).accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
     }
 
     @Test
     public void testCreateItem() throws Exception {
-        Item itemRequest = objectMapper.readValue(TestUtils.getJsonPayloadFromFile("ItemCreateRequest.json"), Item.class);
-        Item itemResponse = objectMapper.readValue(TestUtils.getJsonPayloadFromFile("ItemGetResponse.json"), Item.class);
+        Item itemRequest = objectMapper.readValue(TestUtils.getJsonPayloadFromFile("controller/ItemCreateRequest.json"), Item.class);
+        Item itemResponse = objectMapper.readValue(TestUtils.getJsonPayloadFromFile("controller/ItemGetResponse.json"), Item.class);
         given(this.itemService.create(any())).willReturn(itemResponse);
 
         MvcResult mvcResult = this.mvc.perform(post("/v1/items", itemRequest)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(TestUtils.getJsonPayloadFromFile("ItemCreateRequest.json"))
+                .content(TestUtils.getJsonPayloadFromFile("controller/ItemCreateRequest.json"))
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated()).andReturn();
 
         String apiResponse = mvcResult.getResponse().getContentAsString();
-        JSONAssert.assertEquals(TestUtils.getJsonPayloadFromFile("ItemGetResponse.json"), apiResponse, false);
+        JSONAssert.assertEquals(TestUtils.getJsonPayloadFromFile("controller/ItemGetResponse.json"), apiResponse, false);
 
     }
 
 
     @Test
     public void tesUpdateItem() throws Exception {
-        Item itemRequest = objectMapper.readValue(TestUtils.getJsonPayloadFromFile("ItemCreateRequest.json"), Item.class);
-        Item itemResponse = objectMapper.readValue(TestUtils.getJsonPayloadFromFile("ItemGetResponse.json"), Item.class);
+        Item itemRequest = objectMapper.readValue(TestUtils.getJsonPayloadFromFile("controller/ItemCreateRequest.json"), Item.class);
+        Item itemResponse = objectMapper.readValue(TestUtils.getJsonPayloadFromFile("controller/ItemGetResponse.json"), Item.class);
 
         given(this.itemService.update(any(), any())).willReturn(itemResponse);
         MvcResult mvcResult = this.mvc.perform(put("/v1/items/" + 1, itemRequest)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(TestUtils.getJsonPayloadFromFile("ItemCreateRequest.json"))
+                .content(TestUtils.getJsonPayloadFromFile("controller/ItemCreateRequest.json"))
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk()).andReturn();
 
         String apiResponse = mvcResult.getResponse().getContentAsString();
-        JSONAssert.assertEquals(TestUtils.getJsonPayloadFromFile("ItemGetResponse.json"), apiResponse, false);
+        JSONAssert.assertEquals(TestUtils.getJsonPayloadFromFile("controller/ItemGetResponse.json"), apiResponse, false);
     }
 
 
