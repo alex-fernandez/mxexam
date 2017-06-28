@@ -29,8 +29,5 @@
         <AsyncRoot level="INFO">
             <AppenderRef ref="file" />
         </AsyncRoot>
-        
-            <AsyncLogger name="org.mule.module.http.internal.HttpMessageLogger" level="DEBUG" />
-    <AsyncLogger name="com.ning.http" level="DEBUG" />
     </Loggers>
 </Configuration>

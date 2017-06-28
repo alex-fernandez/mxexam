@@ -4,8 +4,7 @@
   "items": [
     {
       "id": 1,
-      "name": "chipy",
-      "cost": 20
+      "count": 1
     }
   ]
 }

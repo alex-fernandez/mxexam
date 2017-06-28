@@ -4,8 +4,8 @@ import com.alexfrndz.orderexam.config.OrderItemPojoToOrderItemEntityConverter;
 import com.alexfrndz.orderexam.entity.ItemEntity;
 import com.alexfrndz.orderexam.entity.OrderEntity;
 import com.alexfrndz.orderexam.entity.OrderItemEntity;
-import com.alexfrndz.orderexam.pojo.OrderItem;
 import com.alexfrndz.orderexam.pojo.Order;
+import com.alexfrndz.orderexam.pojo.OrderItem;
 import com.alexfrndz.orderexam.pojo.PaginationSearchRequest;
 import com.alexfrndz.orderexam.pojo.SearchResponse;
 import com.alexfrndz.orderexam.pojo.exception.ApiException;
@@ -18,7 +18,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -54,20 +53,20 @@ public class OrderImpl extends AbstractService implements IOrder {
 
     }
 
-    @Transactional
+    @Override
     public SearchResponse search(String customerName, PaginationSearchRequest searchRequest) {
         SearchResponse<OrderEntity> searchResponse = orderRepository.search(customerName, searchRequest);
         return searchResponseConverter.buildSearchResponse(searchResponse, entityPojoToEntityEntityConverterBasedTransformer);
     }
 
-
+    @Override
     public Order get(Long entityId) {
         OrderEntity orderEntity = orderRepository.findOne(entityId);
         checkEntity(orderEntity);
         return orderExamConversionService.convert(orderEntity, Order.class);
     }
 
-
+    @Override
     public Order create(Order request) {
         validate(request);
         OrderEntity orderEntity = orderExamConversionService.convert(request, OrderEntity.class);
@@ -77,11 +76,12 @@ public class OrderImpl extends AbstractService implements IOrder {
             for (OrderItem orderItem : request.getItems()) {
                 ItemEntity itemEntity = itemService.getEntity(orderItem.getId());
                 if (itemEntity == null) {
-                    throw new NotFoundException("404", "Item '" + orderItem.getId() + "' cannot be found.");
+                    throw new NotFoundException("404", "Item with id of '" + orderItem.getId() + "' cannot be found.");
                 }
                 OrderItemEntity orderItemEntity = orderItemPojoToOrderItemEntityConverter.convert(orderItem);
                 orderItemEntity.setOrder(orderEntity);
                 orderItemEntity.setCost(itemEntity.getCost());
+                orderItemEntity.setCount(orderItem.getCount());
                 orderItemEntitySet.add(orderItemEntity);
             }
 
@@ -102,7 +102,7 @@ public class OrderImpl extends AbstractService implements IOrder {
         return orderExamConversionService.convert(orderEntity, Order.class);
     }
 
-    @Transactional
+    @Override
     public Order update(Long entityId, Order request) {
         OrderEntity entityDataEntity = orderRepository.findOne(entityId);
         checkEntity(entityDataEntity);
@@ -117,6 +117,7 @@ public class OrderImpl extends AbstractService implements IOrder {
         return orderExamConversionService.convert(entityDataEntity, Order.class);
     }
 
+    @Override
     public void delete(Long entityId) {
         OrderEntity entityDataEntity = orderRepository.findOne(entityId);
         checkEntity(entityDataEntity);

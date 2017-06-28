@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Date;
@@ -25,6 +26,7 @@ public class Order {
     private String customerName;
 
     @Size(message = "'item' should be > 1")
+    @Valid
     private Set<OrderItem> items;
 
     private Date createdOn;

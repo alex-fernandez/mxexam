@@ -17,6 +17,5 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
     <catch-exception-strategy name="mule-configGlobalExceptionStategy">
         <parse-template location="responses/GetOrdersResponseServerError.json" doc:name="Set Server Response"/>
         <set-property propertyName="http.status" value="500" mimeType="application/json" doc:name="Set 500 http.status"/>
-        <logger message="Server response #[payload]" level="INFO" doc:name="Logger"/>
     </catch-exception-strategy>
 </mule>

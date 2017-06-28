@@ -79,6 +79,19 @@ public class OrderControllerTest {
         JSONAssert.assertEquals(TestUtils.getJsonPayloadFromFile("controller/OrderGetResponse.json"), apiResponse, false);
     }
 
+    @Test
+    public void testCreateOrder_withValidationError() throws Exception {
+        Order orderResponse = objectMapper.readValue(TestUtils.getJsonPayloadFromFile("controller/OrderGetResponse.json"), Order.class);
+        given(this.orderService.create(any())).willReturn(orderResponse);
+
+        MvcResult mvcResult = this.mvc.perform(post("/v1/orders", orderResponse)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(TestUtils.getJsonPayloadFromFile("controller/OrderCreateRequestValidationError.json"))
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest()).andReturn();
+
+    }
+
 
     @Test
     public void tesUpdateOrder() throws Exception {

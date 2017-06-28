@@ -1,9 +1,9 @@
 {
   "customerName": "Alex",
-  "placementDate": "2017-04-12",
   "items": [
     {
       "id": 1,
+      "cost": 20,
       "count": 1
     }
   ]

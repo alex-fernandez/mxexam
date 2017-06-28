@@ -2,7 +2,7 @@ package com.alexfrndz.orderexam.controller;
 
 import com.alexfrndz.orderexam.pojo.exception.ApiException;
 import com.alexfrndz.orderexam.pojo.exception.DuplicateEntryException;
-import com.alexfrndz.orderexam.pojo.exception.ErrorJson;
+import com.alexfrndz.orderexam.pojo.exception.ErrorResponse;
 import com.alexfrndz.orderexam.pojo.exception.NotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +10,8 @@ import org.springframework.boot.autoconfigure.web.ErrorAttributes;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -46,7 +48,7 @@ public class BaseController {
     @ExceptionHandler(NotFoundException.class)
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
     @ResponseBody
-    public ErrorJson handleNotFoundError(HttpServletRequest req) {
+    public ErrorResponse handleNotFoundError(HttpServletRequest req) {
         return emitErrorJson(HttpStatus.NOT_FOUND, req, false);
     }
 
@@ -54,41 +56,41 @@ public class BaseController {
     @ExceptionHandler(DuplicateEntryException.class)
     @ResponseStatus(value = HttpStatus.CONFLICT)
     @ResponseBody
-    public ErrorJson handleDuplicate(HttpServletRequest req) {
+    public ErrorResponse handleDuplicate(HttpServletRequest req) {
         return emitErrorJson(HttpStatus.CONFLICT, req, false);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-    public ErrorJson handleValidationFromAnnotation(HttpServletRequest req) {
-        // BindingResult result = exception.getBindingResult();
-        // FieldError error = result.getFieldError();
-        return emitErrorJson(HttpStatus.BAD_REQUEST, req, false);
+    public ErrorResponse handleValidationFromAnnotation(HttpServletRequest req, MethodArgumentNotValidException exception) {
+        BindingResult result = exception.getBindingResult();
+        FieldError error = result.getFieldError();
+        return emitErrorJson(HttpStatus.BAD_REQUEST, req, false, error.getDefaultMessage());
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-    public ErrorJson handleIllegalArgumentException(HttpServletRequest req) {
-        return emitErrorJson(HttpStatus.BAD_REQUEST, req, false);
+    public ErrorResponse handleIllegalArgumentException(HttpServletRequest req, IllegalArgumentException exception) {
+        return emitErrorJson(HttpStatus.BAD_REQUEST, req, false, exception.getLocalizedMessage());
     }
 
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-    public ErrorJson handleIllegalArgumentExceptionForNotReadable(HttpServletRequest req) {
+    public ErrorResponse handleIllegalArgumentExceptionForNotReadable(HttpServletRequest req) {
         return emitErrorJson(HttpStatus.BAD_REQUEST, req, false);
     }
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-    public ErrorJson handleIllegalArgumentExceptionTypeMismatch(HttpServletRequest req) {
+    public ErrorResponse handleIllegalArgumentExceptionTypeMismatch(HttpServletRequest req) {
         //  return new ErrorResponse("INVALID_VALUE", exception.getMostSpecificCause().getLocalizedMessage());
         return emitErrorJson(HttpStatus.BAD_REQUEST, req, false);
     }
 
     @ExceptionHandler(ApiException.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-    public ErrorJson handleAPIException(HttpServletRequest req) {
+    public ErrorResponse handleAPIException(HttpServletRequest req) {
 
         return emitErrorJson(HttpStatus.BAD_REQUEST, req, false);
     }
@@ -99,7 +101,11 @@ public class BaseController {
         return errorAttributes.getErrorAttributes(requestAttributes, includeStackTrace);
     }
 
-    private ErrorJson emitErrorJson(HttpStatus status, HttpServletRequest request, boolean includeStackTrace) {
-        return new ErrorJson(status.value(), getErrorAttributes(request, includeStackTrace));
+    private ErrorResponse emitErrorJson(HttpStatus status, HttpServletRequest request, boolean includeStackTrace, String message) {
+        return new ErrorResponse(status.value(), getErrorAttributes(request, includeStackTrace), message);
+    }
+
+    private ErrorResponse emitErrorJson(HttpStatus status, HttpServletRequest request, boolean includeStackTrace) {
+        return new ErrorResponse(status.value(), getErrorAttributes(request, includeStackTrace));
     }
 }

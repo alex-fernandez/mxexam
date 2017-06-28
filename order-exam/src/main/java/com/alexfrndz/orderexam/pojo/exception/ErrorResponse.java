@@ -5,20 +5,22 @@ import java.util.Map;
 /**
  * Created by afernandez on 28/06/2017.
  */
-public class ErrorJson {
+public class ErrorResponse {
 
     public Integer status;
-    public String error;
     public String message;
     public String timeStamp;
-    public String trace;
 
-    public ErrorJson(int status, Map<String, Object> errorAttributes) {
+    public ErrorResponse(int status, Map<String, Object> errorAttributes) {
         this.status = status;
-        this.error = (String) errorAttributes.get("error");
         this.message = (String) errorAttributes.get("message");
         this.timeStamp = errorAttributes.get("timestamp").toString();
-        this.trace = (String) errorAttributes.get("trace");
+    }
+
+    public ErrorResponse(int status, Map<String, Object> errorAttributes, String message) {
+        this.status = status;
+        this.message = message;
+        this.timeStamp = errorAttributes.get("timestamp").toString();
     }
 
 }
