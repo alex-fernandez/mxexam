@@ -60,6 +60,7 @@ public class OrderControllerTest {
         MvcResult mvcResult = this.mvc.perform(get("/v1/orders/" + 1).accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk()).andReturn();
         String apiResponse = mvcResult.getResponse().getContentAsString();
+        
         JSONAssert.assertEquals(TestUtils.getJsonPayloadFromFile("controller/OrderGetResponse.json"), apiResponse, false);
 
     }

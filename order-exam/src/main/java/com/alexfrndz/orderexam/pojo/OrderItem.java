@@ -19,5 +19,5 @@ public class OrderItem {
     @Min(value = 1, message = "'count' must be > 0")
     private int count;
 
-    private double itemCost;
+    private double cost;
 }

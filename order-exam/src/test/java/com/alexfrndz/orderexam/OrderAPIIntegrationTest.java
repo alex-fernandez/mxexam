@@ -61,7 +61,7 @@ public class OrderAPIIntegrationTest {
     }
 
     @Test
-    public void testCreateOrder__ItemExistSuccess_shouldCreateOder() throws Exception {
+    public void testCreateOrder_ItemExistSuccess_shouldCreateOder() throws Exception {
         createItem();
         ResponseEntity<Order> apiResponse = this.restTemplate.postForEntity(getURL("/v1/orders"), createEntity("it/OrderCreateRequest.json"), Order.class);
         assertThat("Order API http status should be '201'", apiResponse.getStatusCodeValue(), Is.is(201));

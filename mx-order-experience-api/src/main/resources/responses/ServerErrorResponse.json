@@ -1,5 +1,5 @@
 {
-    "timestamp": "#[server.dateTime.getMilliSeconds()]",
+    "timestamp": "#[server.dateTime]",
     "status": 500,
     "error": "Server Error",
     "message": "#[exception.getCauseException().getMessage()]"

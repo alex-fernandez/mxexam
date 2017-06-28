@@ -22,7 +22,7 @@ http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/m
 %input payload application/json
 %output application/json
 %var subTotalItems = payload.items map ((item) -> {
-		subTotal: item.count * item.itemCost 
+		subTotal: item.count * item.cost 
 	})
 %function sumTotals(type) ((sum subTotalItems.subTotal) default 0)
 

@@ -1,4 +1,6 @@
 order-exam/target/
+mx-order-experience-api/.mule
+/mx-order-experience-api/.mule
 !.mvn/wrapper/maven-wrapper.jar
 
 ### STS ###

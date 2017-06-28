@@ -29,7 +29,7 @@ public class OrderEntityToOrderPojoConverter implements Converter<OrderEntity, O
             OrderItem orderItem = new OrderItem();
             orderItem.setId(itemEntity.getId());
             orderItem.setCount(itemEntity.getCount());
-            orderItem.setItemCost(itemEntity.getCost());
+            orderItem.setCost(itemEntity.getCost());
             orderItemSet.add(orderItem);
         }
 

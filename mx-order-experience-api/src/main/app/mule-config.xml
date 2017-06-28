@@ -14,8 +14,9 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
    
     <http:request-config name="HTTP_Request_Configuration" host="${http.api.host}" port="${http.api.port}" doc:name="HTTP Request Configuration" responseTimeout="30000" usePersistentConnections="false"/>
     <apikit:config name="api-config" raml="api.raml" consoleEnabled="false" doc:name="Router"/>
-    <catch-exception-strategy name="mule-configGlobalExceptionStategy">
-        <parse-template location="responses/GetOrdersResponseServerError.json" doc:name="Set Server Response"/>
+    <catch-exception-strategy name="mule-config-globalExceptionStategy">
+        <parse-template location="responses/ServerErrorResponse.json" doc:name="Set Server Response"/>
         <set-property propertyName="http.status" value="500" mimeType="application/json" doc:name="Set 500 http.status"/>
+        <set-property propertyName="Content-Type" value="application/json" doc:name="Set Content-Type to JSON"/>
     </catch-exception-strategy>
 </mule>

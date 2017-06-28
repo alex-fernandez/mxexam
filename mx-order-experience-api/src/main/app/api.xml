@@ -7,7 +7,7 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
         <http:listener config-ref="api-httpListenerConfig" path="/api/*" doc:name="Accepts Request on /api/*" />
         <expression-filter expression="#[message.inboundProperties.'http.request.path' != '/favicon.ico']" doc:name="Dont listen to faviicon" />
         <apikit:router config-ref="api-config" doc:name="APIkit Router" />
-        <exception-strategy ref="api-apiKitGlobalExceptionMapping" doc:name="Reference Exception Strategy" />
+        <exception-strategy ref="api-apiKitGlobalExceptionMapping" doc:name="apiKitExceptionStarategy" />
     </flow>
     <flow name="api-console">
         <http:listener config-ref="api-httpListenerConfig" path="/console/*" doc:name="Accepts Request on /console/*" />
@@ -15,11 +15,11 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
     </flow>
     <flow name="get:/orders:api-config">
         <flow-ref name="get-orders-sub-flow" doc:name="get-orders-sub-flow" />
-        <exception-strategy ref="mule-configGlobalExceptionStategy" doc:name="Global Exception Strategy"/>
+        <exception-strategy ref="mule-config-globalExceptionStategy" doc:name="Global Exception Strategy"/>
     </flow>
     <flow name="get:/orders/{orderId}:api-config">
         <flow-ref name="get-orders-by-id-compute-total" doc:name="get-orders-by-id-compute-total" />
-        <exception-strategy ref="mule-configGlobalExceptionStategy" doc:name="Global Exception Strategy"/>
+        <exception-strategy ref="mule-config-globalExceptionStategy" doc:name="Global Exception Strategy"/>
     </flow>
     <apikit:mapping-exception-strategy name="api-apiKitGlobalExceptionMapping">
         <apikit:mapping statusCode="404">
