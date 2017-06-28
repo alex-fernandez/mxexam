@@ -1,0 +1,11 @@
+{
+  "customerName": "Alex",
+  "placementDate": "2017-04-12",
+  "items": [
+    {
+      "id": 1,
+      "name": "chipy",
+      "cost": 20
+    }
+  ]
+}

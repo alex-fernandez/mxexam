@@ -5,15 +5,17 @@ import com.alexfrndz.orderexam.pojo.Item;
 import com.alexfrndz.orderexam.pojo.PaginationSearchRequest;
 import com.alexfrndz.orderexam.pojo.SearchResponse;
 import com.alexfrndz.orderexam.service.ItemImpl;
-import org.junit.Ignore;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.skyscreamer.jsonassert.JSONAssert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
 import static org.mockito.BDDMockito.any;
 import static org.mockito.BDDMockito.given;
@@ -32,38 +34,65 @@ public class ItemControllerTest {
     @MockBean
     private ItemImpl itemService;
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
     @Test
     public void testSearch() throws Exception {
+
+        SearchResponse searchResponse = objectMapper.readValue(TestUtils.getJsonPayloadFromFile("ItemSearchResponse.json"), SearchResponse.class);
+
         given(this.itemService.search(any(), any(PaginationSearchRequest.class)))
-                .willReturn(new SearchResponse());
+                .willReturn(searchResponse);
 
-        this.mvc.perform(get("/v1/items").accept(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(status().isOk());
+        MvcResult mvcResult = this.mvc.perform(get("/v1/items").accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk()).andReturn();
+
+        String apiResponse = mvcResult.getResponse().getContentAsString();
+
+        JSONAssert.assertEquals(TestUtils.getJsonPayloadFromFile("ItemSearchResponse.json"), apiResponse, false);
+
     }
 
     @Test
-    @Ignore
     public void testGetItem() throws Exception {
-        given(this.itemService.get(any())).willReturn(new Item());
-        this.mvc.perform(get("/v1/items" + 1).accept(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(status().isOk());
+        Item item = objectMapper.readValue(TestUtils.getJsonPayloadFromFile("ItemGetResponse.json"), Item.class);
+        given(this.itemService.get(any())).willReturn(item);
+        this.mvc.perform(get("/v1/items/" + 1).accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
     }
 
     @Test
-    @Ignore
     public void testCreateItem() throws Exception {
-        given(this.itemService.create(any())).willReturn(new Item());
-        this.mvc.perform(post("/v1/items").accept(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(status().isOk());
+        Item itemRequest = objectMapper.readValue(TestUtils.getJsonPayloadFromFile("ItemCreateRequest.json"), Item.class);
+        Item itemResponse = objectMapper.readValue(TestUtils.getJsonPayloadFromFile("ItemGetResponse.json"), Item.class);
+        given(this.itemService.create(any())).willReturn(itemResponse);
+
+        MvcResult mvcResult = this.mvc.perform(post("/v1/items", itemRequest)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(TestUtils.getJsonPayloadFromFile("ItemCreateRequest.json"))
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated()).andReturn();
+
+        String apiResponse = mvcResult.getResponse().getContentAsString();
+        JSONAssert.assertEquals(TestUtils.getJsonPayloadFromFile("ItemGetResponse.json"), apiResponse, false);
+
     }
 
 
     @Test
-    @Ignore
     public void tesUpdateItem() throws Exception {
-        given(this.itemService.create(any())).willReturn(new Item());
-        this.mvc.perform(put("/v1/items" + 1).accept(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(status().isOk());
+        Item itemRequest = objectMapper.readValue(TestUtils.getJsonPayloadFromFile("ItemCreateRequest.json"), Item.class);
+        Item itemResponse = objectMapper.readValue(TestUtils.getJsonPayloadFromFile("ItemGetResponse.json"), Item.class);
+
+        given(this.itemService.update(any(), any())).willReturn(itemResponse);
+        MvcResult mvcResult = this.mvc.perform(put("/v1/items/" + 1, itemRequest)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(TestUtils.getJsonPayloadFromFile("ItemCreateRequest.json"))
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk()).andReturn();
+
+        String apiResponse = mvcResult.getResponse().getContentAsString();
+        JSONAssert.assertEquals(TestUtils.getJsonPayloadFromFile("ItemGetResponse.json"), apiResponse, false);
     }
 
 

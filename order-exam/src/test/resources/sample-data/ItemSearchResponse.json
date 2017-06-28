@@ -1,0 +1,14 @@
+{
+  "start": 1,
+  "total": 20,
+  "count": 1,
+  "results": [
+    {
+      "id": 1,
+      "name": "sneakers",
+      "cost": 100,
+      "createdOn": "2017-06-27T13:23:15.000+0000",
+      "updatedOn": "2017-06-27T13:23:15.000+0000"
+    }
+  ]
+}
