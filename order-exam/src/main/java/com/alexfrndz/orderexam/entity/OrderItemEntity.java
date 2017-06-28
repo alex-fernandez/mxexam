@@ -17,8 +17,8 @@ import javax.persistence.UniqueConstraint;
 @Table(name = "order_item", indexes = {
         @Index(name = "item_id", columnList = "item_id")
 },
-        uniqueConstraints = @UniqueConstraint(name = "idx_item_id",
-                columnNames = {"item_id"}))
+        uniqueConstraints = @UniqueConstraint(name = "unique_order_item_id",
+                columnNames = {"order_id", "item_id"}))
 @lombok.Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -33,7 +33,6 @@ public class OrderItemEntity extends DomainObject {
 
     @Column(name = "cost", nullable = false)
     private Double cost;
-
 
 
     @JoinColumn(name = "order_id",
