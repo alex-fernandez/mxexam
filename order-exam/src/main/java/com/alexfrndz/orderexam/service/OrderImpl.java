@@ -124,11 +124,6 @@ public class OrderImpl extends AbstractService implements IOrder {
         orderRepository.delete(entityId);
     }
 
-
-    private void validate(Order request) {
-
-    }
-
     private void checkEntity(OrderEntity entityDataEntity) {
         if (entityDataEntity == null) {
             throw new NotFoundException(NOT_FOUND_ERROR_STATUS, NOT_FOUND_ERROR_MESSAGE);
