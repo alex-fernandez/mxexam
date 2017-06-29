@@ -104,17 +104,17 @@ public class OrderImpl extends AbstractService implements IOrder {
 
     @Override
     public Order update(Long entityId, Order request) {
-        OrderEntity entityDataEntity = orderRepository.findOne(entityId);
-        checkEntity(entityDataEntity);
+        OrderEntity orderEntity = orderRepository.findOne(entityId);
+        checkEntity(orderEntity);
         Set<OrderItemEntity> orderItemEntityHashSet = Sets.newHashSet();
-        Iterable<OrderItemEntity> mergedAlternativeNames = Stream.concat(Sets.newHashSet(orderItemEntityHashSet).stream(), entityDataEntity.getOrderItems().stream())
+        Iterable<OrderItemEntity> orderItemEntities = Stream.concat(Sets.newHashSet(orderItemEntityHashSet).stream(), orderEntity.getOrderItems().stream())
                 .collect(Collectors.toSet());
-        entityDataEntity.setOrderItems(Sets.newHashSet(mergedAlternativeNames));
-        entityDataEntity.setPlacementDate(request.getPlacementDate());
-        entityDataEntity.setCustomerName(request.getCustomerName());
-        entityDataEntity = orderRepository.save(entityDataEntity);
+        orderEntity.setOrderItems(Sets.newHashSet(orderItemEntities));
+        orderEntity.setPlacementDate(request.getPlacementDate());
+        orderEntity.setCustomerName(request.getCustomerName());
+        orderEntity = orderRepository.save(orderEntity);
 
-        return orderExamConversionService.convert(entityDataEntity, Order.class);
+        return orderExamConversionService.convert(orderEntity, Order.class);
     }
 
     @Override
