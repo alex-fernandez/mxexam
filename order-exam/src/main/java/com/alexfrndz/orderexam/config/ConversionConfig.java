@@ -40,7 +40,7 @@ public class ConversionConfig {
 
     @Bean
     @Qualifier("orderExamConversionService")
-    public ConversionService mondelasportsConversionService() {
+    public ConversionService orderExamConversionService() {
         ConversionServiceFactoryBean factory = new ConversionServiceFactoryBean();
         Set<Converter> converters = Sets.newHashSet();
         converters.add(orderPojoToOrderEntityConverter);

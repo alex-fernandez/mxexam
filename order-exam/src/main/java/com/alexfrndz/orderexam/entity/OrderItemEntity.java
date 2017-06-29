@@ -76,7 +76,7 @@ public class OrderItemEntity extends DomainObject {
 
 
     public enum Paths {
-        nam, id
+        id
     }
 
 

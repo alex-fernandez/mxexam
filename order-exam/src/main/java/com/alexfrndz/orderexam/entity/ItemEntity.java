@@ -23,7 +23,7 @@ public class ItemEntity extends DomainObject {
     @Column(name = "name", nullable = false, length = 100)
     private String name;
 
-    @Column(name = "cost", nullable = false, length = 100)
+    @Column(name = "cost", nullable = false)
     private Double cost;
 
     public Double getCost() {
